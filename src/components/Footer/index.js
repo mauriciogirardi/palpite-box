@@ -6,11 +6,10 @@ const Footer = () => {
 			<div className="container mx-auto ">
 				<div className="flex justify-around">
 					<img
-						width="150"
+						width="100"
 						src="logo_semana_fsm.png"
 						alt="semana fullstack master"
 					/>
-					<img width="150" src="logo_devpleno.png" alt="devpleno" />
 				</div>
 				<p className="text-center font-medium text-white mt-4 text-sm">
 					Projeto desenvolvido por: Mauricio Girardi
