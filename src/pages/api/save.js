@@ -1,10 +1,7 @@
 import { GoogleSpreadsheet } from 'google-spreadsheet';
-import credentials from '../../../credentials.json';
 import moment from 'moment';
 
-const doc = new GoogleSpreadsheet(
-	'1P-etDZ4_zh5ucFKk0evtVPaqlHBXlqpQNbgg56Mu7wc'
-);
+const doc = new GoogleSpreadsheet(process.env.SHEET_DOC_ID);
 
 const genCupom = () => {
 	const codeCupom = parseInt(moment().format('DDMMYYYYHHmmssSSS'))
@@ -21,7 +18,10 @@ const genCupom = () => {
 
 export default async (req, res) => {
 	try {
-		await doc.useServiceAccountAuth(credentials);
+		await doc.useServiceAccountAuth({
+			client_email: process.env.SHEET_CLIENT_EMAIL,
+			private_key: process.env.SHEET_PRIVATE_KEY,
+		});
 		await doc.loadInfo();
 		const sheet = doc.sheetsByIndex[1];
 		const data = JSON.parse(req.body);
@@ -46,9 +46,15 @@ export default async (req, res) => {
 			Cupom,
 			Promocao,
 			Data: moment().format('DD/MM/YYYY'),
-			Nota: 5,
+			Nota: parseInt(data.Nota),
 		});
-		res.end(req.boby);
+		res.end(
+			JSON.stringify({
+				showCupom: Cupom !== '',
+				Cupom,
+				Promocao,
+			})
+		);
 	} catch (err) {
 		res.end('error');
 	}

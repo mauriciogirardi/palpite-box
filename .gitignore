@@ -3,6 +3,7 @@
 # Edit at https://www.toptal.com/developers/gitignore?templates=node,react,visualstudiocode
 
 credentials.json
+.env.local
 
 ### Node ###
 # Logs
